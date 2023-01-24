@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import styled from "styled-components"
 import MyWallet from "../images/MyWallet.png"
-
-
+import axios from "axios"
+import { BASE_URL } from "../constants/data"
 
 export default function SignUp() {
 
@@ -11,18 +11,29 @@ export default function SignUp() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPsswd, setConfirmPsswd] = useState("")
+    const navigate=useNavigate()
 
+    function creatingAccount(e){
+        e.preventDefault()
+        if(password !== confirmPsswd){
+            return alert("A senha e a confirmação estão divergindo! coloque as senhas")
+        }
+        axios.post(`${BASE_URL}/sign-up`,{name:name, email:email, password:password})
+            .then((res)=>{console.log(res.data)
+            navigate("/")})
+            .catch((err)=> console.log(err.response.data))
+    }   
 
 
     return ( 
         <>
             <StyleSignUp>
                 <img src={MyWallet} alt="img"/>
-                <form>
+                <form onSubmit={creatingAccount}>
                     <input type="text" placeholder="nome" value={name} onChange={(e)=> SetName(e.target.value)} required/>
                     <input type="email" placeholder="email" value={email} onChange={(e)=> setEmail(e.target.value)} required />
                     <input type="password" placeholder="senha" value={password} onChange={(e)=> setPassword(e.target.value)} required/>
-                    <input type="password" placeholder="confirma senha" value={confirmPsswd} onChange={(e)=> setConfirmPsswd(e.target.value)} required/>
+                    <input type="password" placeholder="confirma senha" value={confirmPsswd} onChange={(e)=> setConfirmPsswd(e.target.value)} required />
                     <button type="submit">Cadastrar</button>
                 </form>
                 <Link  to="/">

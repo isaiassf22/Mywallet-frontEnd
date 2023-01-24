@@ -1,23 +1,38 @@
-import { Link, Navigate, useNavigate } from "react-router-dom"
+import { Link,useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import mywallet from "../images/MyWallet.png"
-import { useState } from "react"
+import React, { useState } from "react"
+import axios from "axios"
+import { BASE_URL } from "../constants/data"
+import { AuthContext } from "../constants/data"
 
 
 export default function SignIn() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const navigate= useNavigate()
+    const { setToken } = React.useContext(AuthContext)
 
+
+    function signInRequest(e){
+        e.preventDefault()
+        axios.post(`${BASE_URL}/sign-in`, {email:email, password:password})
+            .then((res)=>{console.log(res.data.token)  
+            navigate("/home") 
+            setToken(res.data.token)
+        })
+            .catch((err)=> console.log(err))
+    }
 
     return (
         <>
             <Stylesignin>
 
                 <img src={mywallet} />
-                <form >
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                <form onSubmit={signInRequest} >
+                    <input type="email" value={email} placeholder="email" onChange={(e) => setEmail(e.target.value)} required />
                     <input type="password" placeholder="senha" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                    <button onClick={() => Navigate("/home")}>
+                    <button >
                         Entrar
                     </button>
                 </form>
