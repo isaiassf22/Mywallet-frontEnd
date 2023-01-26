@@ -11,19 +11,23 @@ export default function SignIn() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigate= useNavigate()
-    const { setToken } = React.useContext(AuthContext)
+    const { setToken, setName } = React.useContext(AuthContext)
 
 
     function signInRequest(e){
         e.preventDefault()
         axios.post(`${BASE_URL}/sign-in`, {email:email, password:password})
-            .then((res)=>{console.log(res.data.token)  
-            navigate("/home") 
+            .then((res)=>{
+                navigate("/home")
+                console.log(res.data.token)
+                console.log(res.data.name)
+             setName(res.data.name) 
             setToken(res.data.token)
+            
         })
             .catch((err)=> console.log(err))
     }
-
+    
     return (
         <>
             <Stylesignin>

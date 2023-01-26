@@ -5,11 +5,15 @@ export const BASE_URL="http://localhost:5000"
 
 export const AuthContext = React.createContext({})
 
- export const AuthProvider = ({children}) => {
-    const [token, setToken] = useState("")
-   
+ export default function AuthProvider ({children})  {
+    const [token, setToken] = useState("token01")
+    const [name, setName]= useState("fulano")
+    
+
+
+
     return (
-        <AuthContext.Provider value={{ token, setToken}}>
+        <AuthContext.Provider value={{ token, setToken, name, setName}}>
             {children}
         </AuthContext.Provider>
     )

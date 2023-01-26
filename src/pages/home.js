@@ -1,11 +1,37 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import vector from "../images/Vector.png"
-import { useState } from "react"
-
+import React,{ useState } from "react"
+import { AuthContext } from "../constants/data"
+import { useEffect } from "react"
+import { BASE_URL } from "../constants/data"
+import axios from "axios"
 export default function Home() {
 
-    const [transactions, setTransactions] = useState([{
+
+    const { token } = React.useContext(AuthContext)
+        console.log(token)
+    const [transactions,setTransactions]=useState("")
+
+        useEffect(() => {
+            const config = {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+    
+            axios.get(`${BASE_URL}/transactions`, config)
+                .then((res) => {
+                    console.log(res.data)
+                   
+                })
+                .catch(err => err.response.data)
+    
+        }, [])
+
+
+
+        /*const [transactions, setTransactions] = useState([{
         type: "entrada",
         value: 40,
         description: "Apostas esportivas"
@@ -17,7 +43,7 @@ export default function Home() {
         type: "entrada",
         value: 40,
         description: "Apostas esportivas"
-    }])
+    }])*/
 
     let amount =0
     for(let i=0;i<transactions.length;i++){
@@ -28,7 +54,7 @@ export default function Home() {
         <>
             <StyleHome>
                 <div className="header">
-                    <p>Olá, Fulano</p>
+                    <p>Olá, pessoa</p>
                     <img src={vector} alt="img" />
                 </div>
                 <div className="main">
@@ -36,7 +62,7 @@ export default function Home() {
                         <p className="p0">
                             não há registros de entrada ou saida.
                         </p> : <span>
-                            {transactions.map((t) => <div>
+                            {transactions.map((t,index) => <div key={index}>
                                 <p>aposta</p>
                                 <p>{t.value}</p>
                             </div>)}
