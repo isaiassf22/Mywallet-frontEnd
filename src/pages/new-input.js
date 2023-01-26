@@ -1,5 +1,7 @@
 import styled from "styled-components"
 import { useState } from "react"
+import { AuthContext } from "../constants/data"
+
 
 export default function NewInput() {
 

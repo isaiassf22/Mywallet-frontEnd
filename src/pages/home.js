@@ -9,9 +9,11 @@ import axios from "axios"
 export default function Home() {
 
 
-    const { token } = React.useContext(AuthContext)
-        console.log(token)
-    const [transactions,setTransactions]=useState("")
+    const { token, name } = React.useContext(AuthContext)
+       
+    const [Boxtransactions,SetBoxTransactions] =useState ([])
+    let amount = 0
+
 
         useEffect(() => {
             const config = {
@@ -22,15 +24,23 @@ export default function Home() {
     
             axios.get(`${BASE_URL}/transactions`, config)
                 .then((res) => {
-                    console.log(res.data)
+                    let transations =res.data.transactions
+                    SetBoxTransactions(transations)
                    
+                    
                 })
                 .catch(err => err.response.data)
     
-        }, [])
+        }, [token])
 
 
-
+            for(let i=0; i<Boxtransactions.length; i++){
+                if(Boxtransactions[i].type==="saida"){
+                    amount-=Boxtransactions[i].value
+                }else{
+                    amount+=Boxtransactions[i].value
+                }
+                    }
         /*const [transactions, setTransactions] = useState([{
         type: "entrada",
         value: 40,
@@ -45,26 +55,26 @@ export default function Home() {
         description: "Apostas esportivas"
     }])*/
 
-    let amount =0
-    for(let i=0;i<transactions.length;i++){
-        amount+=transactions[i].value
-    }
+
 
     return (
         <>
             <StyleHome>
                 <div className="header">
-                    <p>Olá, pessoa</p>
+                    <p>Olá, {name}</p>
                     <img src={vector} alt="img" />
                 </div>
                 <div className="main">
-                    {transactions.length < 1 ?
+                    {Boxtransactions.length < 1 ?
                         <p className="p0">
                             não há registros de entrada ou saida.
                         </p> : <span>
-                            {transactions.map((t,index) => <div key={index}>
-                                <p>aposta</p>
-                                <p>{t.value}</p>
+                            {Boxtransactions.map((t,index) => <div key={index}>
+                                <p>{t.ts_day}</p>
+                                <p>{t.description}</p>
+                                {t.type==="entrada"? <p className="earns">R${t.value}</p>:<p className="spendings">R${t.value}</p> }
+                               
+                                
                             </div>)}
                             <div className="amount">
                                 <p className="p1">Saldo</p>
@@ -139,7 +149,13 @@ const StyleHome = styled.div`
             div{
            
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
+            .spendings{
+                color: red;
+            }
+            .earns{
+                color: green;
+            }
         }
             .amount{
                 width: 100%;

@@ -5,13 +5,17 @@ import NewInput from "./pages/new-input"
 import NewOutput from "./pages/new-output"
 import SignIn from "./pages/sign-in"
 import SignUp from "./pages/sign-up"
+import AuthProvider from "./constants/data"
+
+
 
 export default function App() {
 
     return (
         <>
             <BrowserRouter>
-                <BaseStyle>
+                <AuthProvider>
+                    <BaseStyle>
                     <Routes>
                         <Route path="/" element={<SignIn />} />
                         <Route path="/cadastro" element={<SignUp />} />
@@ -20,6 +24,8 @@ export default function App() {
                         <Route path="/nova-saida" element={<NewOutput />} />
                     </Routes>
                 </BaseStyle>
+                </AuthProvider>
+                
 
             </BrowserRouter>
         </>
