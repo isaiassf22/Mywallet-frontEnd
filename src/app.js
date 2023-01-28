@@ -34,7 +34,7 @@ export default function App() {
 
 const BaseStyle = styled.div`
 max-width:600px;
-height: 100vh;
+height: 102vh;
 background-color: purple;
 margin: 0 auto;
 border: 1px solid gray;

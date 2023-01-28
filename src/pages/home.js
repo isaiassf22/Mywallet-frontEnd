@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import vector from "../images/Vector.png"
-import React,{ useState } from "react"
+import React, { useState } from "react"
 import { AuthContext } from "../constants/data"
 import { useEffect } from "react"
 import { BASE_URL } from "../constants/data"
@@ -9,72 +9,63 @@ import axios from "axios"
 export default function Home() {
 
 
-    const { token, name } = React.useContext(AuthContext)
-       
-    const [Boxtransactions,SetBoxTransactions] =useState ([])
-    let amount = 0
+    const { token,setToken, name } = React.useContext(AuthContext)
+
+    const [Boxtransactions, SetBoxTransactions] = useState([])
+    let amount = Number(0)
+    const navigate=useNavigate()
 
 
-        useEffect(() => {
-            const config = {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
+    useEffect(() => {
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${token}`
             }
-    
-            axios.get(`${BASE_URL}/transactions`, config)
-                .then((res) => {
-                    let transations =res.data.transactions
-                    SetBoxTransactions(transations)
-                   
-                    
-                })
-                .catch(err => err.response.data)
-    
-        }, [token])
+        }
+
+        axios.get(`${BASE_URL}/transactions`, config)
+            .then((res) => {
+                let transations = res.data.transactions
+                SetBoxTransactions(transations)
 
 
-            for(let i=0; i<Boxtransactions.length; i++){
-                if(Boxtransactions[i].type==="saida"){
-                    amount-=Boxtransactions[i].value
-                }else{
-                    amount+=Boxtransactions[i].value
-                }
-                    }
-        /*const [transactions, setTransactions] = useState([{
-        type: "entrada",
-        value: 40,
-        description: "Apostas esportivas"
-    }, {
-        type: "entrada",
-        value: 40,
-        description: "Apostas esportivas"
-    }, {
-        type: "entrada",
-        value: 40,
-        description: "Apostas esportivas"
-    }])*/
+            })
+            .catch(err => err.response.data)
+
+    }, [token])
 
 
+    for (let i = 0; i < Boxtransactions.length; i++) {
+        if (Boxtransactions[i].type === "saida") {
+            amount -= Number(Boxtransactions[i].value)
+        } else {
+            amount += Number(Boxtransactions[i].value)
+        }
+    }
+
+    function exit(){
+        setToken("")
+        navigate("/")
+    }
 
     return (
         <>
             <StyleHome>
                 <div className="header">
                     <p>Olá, {name}</p>
-                    <img src={vector} alt="img" />
+                    <img src={vector} alt="img" onClick={exit} />
                 </div>
                 <div className="main">
                     {Boxtransactions.length < 1 ?
                         <p className="p0">
                             não há registros de entrada ou saida.
                         </p> : <span>
-                            {Boxtransactions.map((t,index) => <div key={index}>
+                            {Boxtransactions.map((t, index) => <div key={index}>
                                 <p>{t.ts_day}</p>
                                 <p>{t.description}</p>
-                                {t.type==="entrada"? <p className="earns">R${t.value}</p>:<p className="spendings">R${t.value}</p> }
-                               
-                                
+                                {t.type === "entrada" ? <p className="earnings">R${t.value}</p> : <p className="spendings">R${t.value}</p>}
+
+
                             </div>)}
                             <div className="amount">
                                 <p className="p1">Saldo</p>
@@ -153,7 +144,7 @@ const StyleHome = styled.div`
             .spendings{
                 color: red;
             }
-            .earns{
+            .earnings{
                 color: green;
             }
         }
