@@ -83,6 +83,7 @@ button{
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 p{
     width: 80%;

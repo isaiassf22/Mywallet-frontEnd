@@ -32,7 +32,7 @@ export default function SignIn() {
         <>
             <Stylesignin>
 
-                <img src={mywallet} />
+                <img src={mywallet} alt="logo" />
                 <form onSubmit={signInRequest} >
                     <input type="email" value={email} placeholder="email" onChange={(e) => setEmail(e.target.value)} required />
                     <input type="password" placeholder="senha" value={password} onChange={(e) => setPassword(e.target.value)} required />
@@ -91,6 +91,7 @@ button{
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 p{
     font-size: 23px;

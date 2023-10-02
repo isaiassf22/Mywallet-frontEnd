@@ -190,6 +190,7 @@ const StyleHome = styled.div`
             width: 35px;
             height: 35px;
             color: white;
+            cursor: pointer;
            }
            p{
             position: absolute;

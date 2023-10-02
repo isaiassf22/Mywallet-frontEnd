@@ -84,6 +84,7 @@ button{
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 p{
     font-size: 22px;
