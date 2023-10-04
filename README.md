@@ -1,6 +1,6 @@
 # MyWalletFront
 
-Design of a wallet manager application (for mobile) ! With the right to register, login and many libraries !
+Design of a wallet manager application! With the right to register, login and many libraries !
 
 <img src="./src/images/MyWallet.gif" />
 
@@ -8,15 +8,15 @@ Try it out now at https://mywallet-front-82nez58km-isaias-s-projects.vercel.app/
 Check out the backend on https://github.com/isaiassf22/Mywallet-backEnd
 ## About
 
-This is the Front-end of my first full-stack web application ! With data persistence ! It's mainly mobile and made to manage money. Below are the implemented features:
+This is the Front-end of my first full-stack web application ! With data-base! It's mainly made to manage money. Below are the implemented features:
 
 - Sign Up
 - Login
-- LogOut
-- List all money that goes in and out for a user
+- List all earns/spendings (describing) to manage your money
 - Add input of money
 - Add output of money
-
+- LogOut
+  
 By using this app any user can keep track of their money !
 
 ## Technologies
@@ -38,7 +38,7 @@ The following tools and frameworks were used in the construction of the project,
 ## How to run
 
 1. Clone this repository
-2. Install dependencies
+2. Install all dependencies
 ```bash
 npm i
 ```
